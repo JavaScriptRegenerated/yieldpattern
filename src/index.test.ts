@@ -16,6 +16,10 @@ describe("Pattern matching", () => {
   const notFound = Symbol('Not found');
   function* ABC(input) {
     switch (yield input) {
+      case yield 1:
+      case yield 2:
+      case yield 3:
+        return 'One of 1, 2, or 3'
       case yield [1, 2, 3]:
         return 'first';
       case yield [1, 2, 4]:
@@ -63,7 +67,7 @@ describe("Pattern matching", () => {
   }
   
   it("returns default when no match", () => {
-    expect(match(ABC(1))).toBe(notFound);
+    expect(match(ABC(99))).toBe(notFound);
   });
   
   it("matches null", () => {
@@ -72,6 +76,12 @@ describe("Pattern matching", () => {
   
   it("matches undefined", () => {
     expect(match(ABC(undefined))).toEqual('UNDEFINED!');
+  });
+  
+  it("matches exact number", () => {
+    expect(match(ABC(1))).toEqual('One of 1, 2, or 3');
+    expect(match(ABC(2))).toEqual('One of 1, 2, or 3');
+    expect(match(ABC(3))).toEqual('One of 1, 2, or 3');
   });
   
   it("matches exact values in array", () => {
