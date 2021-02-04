@@ -18,6 +18,10 @@ export function match(
         return Object.keys(b).every(key => key in a && matches(a[key], b[key]));
       }
       
+      if (a instanceof Error && b instanceof Error) {
+        return a.message === b.message;
+      }
+      
       if (a instanceof URL && b instanceof URL) {
         return a.href === b.href;
       }

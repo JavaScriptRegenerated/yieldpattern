@@ -51,9 +51,11 @@ describe("Pattern matching", () => {
       case yield { status: 404, headers: { 'content-type': 'application/json' } }:
         return 'Response 404 json';
       case yield { pathname: '/about' }:
-        return 'About page'
+        return 'About page';
       case yield new URL('https://example.org/exact'):
-        return 'Exact URL'
+        return 'Exact URL';
+      case yield new Error('Not allowed'):
+        return 'Error: not allowed';
       default: {
         return notFound;
       }
@@ -92,16 +94,16 @@ describe("Pattern matching", () => {
     expect(match(ABC(BigInt('1234')))).toEqual('bigint 1234');
   });
   
-  it("matches string", () => {
+  it("matches exact string", () => {
     expect(match(ABC('some-text'))).toEqual('SOME-TEXT');
-  });
-  
-  it("matches symbol", () => {
-    expect(match(ABC(Symbol.for('some symbol')))).toEqual('Some symbol');
   });
   
   it("matches string with regex", () => {
     expect(match(ABC("string for regex to match"))).toEqual('Regex');
+  });
+  
+  it("matches symbol", () => {
+    expect(match(ABC(Symbol.for('some symbol')))).toEqual('Some symbol');
   });
   
   it("matches object with single key", () => {
@@ -134,6 +136,10 @@ describe("Pattern matching", () => {
   
   it("matches exact URL", () => {
     expect(match(ABC(new URL('https://example.org/exact')))).toEqual('Exact URL');
+  });
+  
+  it("matches exact Error", () => {
+    expect(match(ABC(new Error('Not allowed')))).toEqual('Error: not allowed');
   });
   
   it("matches NaN", () => {
