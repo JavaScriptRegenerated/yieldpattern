@@ -17,7 +17,28 @@ npm add yieldpattern
 
 ## Examples
 
-### HTTP Response
+### Matching strings
+
+```javascript
+import { match } from "yieldpattern";
+
+function* IsGreeting(input) {
+  switch (yield input) {
+    case yield 'hello': return true;
+    case yield '👋': return true;
+    case yield /^hi\b/: return true;
+    default: return false;
+  }
+}
+
+match(IsGreeting('hello')); // true
+match(IsGreeting('👋')); // true
+match(IsGreeting('hi')); // true
+match(IsGreeting('hi there')); // true
+match(IsGreeting('goodbye')); // false
+```
+
+### Matching objects
 
 ```javascript
 import { match } from "yieldpattern";
@@ -36,7 +57,33 @@ function* MatchResponse(response) {
 }
 
 const response = await fetch("https://example.org/");
-match(MatchResponse(response));
-
-// Returns 'Success!'
+match(MatchResponse(response)); // "Success!"
 ```
+
+### Matching URLs
+
+```javascript
+import { match } from "yieldpattern";
+
+function* MatchRoute(url) {
+  switch (yield url) {
+    case yield { pathname: "/" }:
+      return 'Home';
+    case yield { pathname: "/features" }:
+      return 'Features';
+    case yield { pathname: /^legal/ }:
+      return 'Legal';
+    default:
+      return 'Not found';
+  }
+}
+
+match(MatchResponse(new URL("https://example.org/"))); // "Home"
+match(MatchResponse(new URL("https://example.org/features"))); // "Features"
+match(MatchResponse(new URL("https://example.org/legal/terms"))); // "Legal"
+match(MatchResponse(new URL("https://example.org/legal/privacy"))); // "Legal"
+match(MatchResponse(new URL("https://example.org/foobar"))); // "Not found"
+```
+
+### HTTP Response
+
