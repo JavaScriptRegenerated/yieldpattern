@@ -17,7 +17,7 @@ test("Point tuple", () => {
     switch (yield point) {
       case yield [0, 0]: return "origin";
       case yield [0, _]: return `y = ${point[1]}`;
-      case yield [_, 0]: return `x = ${point[0]}`;
+      case yield [_(Number), 0]: return `x = ${point[0]}`;
       default: return `x = ${point[0]}, y = ${point[1]}`;
     }
   }

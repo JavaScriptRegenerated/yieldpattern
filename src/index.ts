@@ -1,4 +1,11 @@
-export const _ = Symbol.for('placeholder');
+// export const _ = Symbol.for('placeholder');
+class Placeholder {
+  constructor(public type: NumberConstructor | StringConstructor) {}
+}
+
+export function _(type: NumberConstructor | StringConstructor) {
+  return new Placeholder(type);
+}
 
 export function match(
   matcher: Generator<any, any, boolean>
@@ -8,7 +15,11 @@ export function match(
       return (a === b);
     }
     
-    if (b === _) return true;
+    if (b === _) {
+      return true;
+    } else if (b instanceof Placeholder) {
+      return Object(a) instanceof b.type;
+    }
     
     if (Array.isArray(a)) {
       if (!Array.isArray(b)) return false;
