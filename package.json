@@ -1,6 +1,6 @@
 {
   "name": "yieldpattern",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pattern matching using generator functions",
   "source": "src/index.ts",
   "main": "dist/yieldpattern.js",

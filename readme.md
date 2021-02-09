@@ -1,9 +1,9 @@
 <div align="center">
   <h1>👑 🧶 Yield Pattern</h1>
   <a href="https://bundlephobia.com/result?p=yieldpattern">
-    <img src="https://badgen.net/bundlephobia/minzip/yieldpattern@0.1.0" alt="minified and gzipped size">
-    <img src="https://badgen.net/bundlephobia/min/yieldpattern@0.1.0" alt="minified size">
-    <img src="https://badgen.net/bundlephobia/dependency-count/yieldpattern@0.1.0" alt="zero dependencies">
+    <img src="https://badgen.net/bundlephobia/minzip/yieldpattern@0.1.1" alt="minified and gzipped size">
+    <img src="https://badgen.net/bundlephobia/min/yieldpattern@0.1.1" alt="minified size">
+    <img src="https://badgen.net/bundlephobia/dependency-count/yieldpattern@0.1.1" alt="zero dependencies">
   </a>
 </div>
 
