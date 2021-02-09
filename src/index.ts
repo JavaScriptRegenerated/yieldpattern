@@ -1,3 +1,5 @@
+export const _ = Symbol.for('placeholder');
+
 export function match(
   matcher: Generator<any, any, boolean>
 ) {
@@ -5,6 +7,8 @@ export function match(
     if (a == null || b == null) {
       return (a === b);
     }
+    
+    if (b === _) return true;
     
     if (Array.isArray(a)) {
       if (!Array.isArray(b)) return false;

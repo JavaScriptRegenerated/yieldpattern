@@ -1,4 +1,4 @@
-import { match } from "./index";
+import { match, _ } from "./index";
 
 class NaiveResponse {
   body: any;
@@ -11,6 +11,22 @@ class NaiveResponse {
     this.headers = init.headers;
   }
 }
+
+test("Point tuple", () => {
+  function* FormatPoint(point) {
+    switch (yield point) {
+      case yield [0, 0]: return "origin";
+      case yield [0, _]: return `y = ${point[1]}`;
+      case yield [_, 0]: return `x = ${point[0]}`;
+      default: return `x = ${point[0]}, y = ${point[1]}`;
+    }
+  }
+  
+  expect(match(FormatPoint([0, 0]))).toEqual('origin');
+  expect(match(FormatPoint([0, 7]))).toEqual('y = 7');
+  expect(match(FormatPoint([12, 0]))).toEqual('x = 12');
+  expect(match(FormatPoint([5, 9]))).toEqual('x = 5, y = 9');
+});
 
 describe("Pattern matching", () => {
   const notFound = Symbol('Not found');
@@ -26,6 +42,8 @@ describe("Pattern matching", () => {
         return 'second';
       case yield [1, [8, 9], 3]:
         return 'nested';
+      case yield [1, [8, _], 3]:
+        return 'nested with placeholder';
       case yield 42:
         return 'forty-two';
       case yield BigInt('1234'):
@@ -94,6 +112,10 @@ describe("Pattern matching", () => {
   
   it("matches nested exact values in array", () => {
     expect(match(ABC([1, [8, 9], 3]))).toEqual('nested');
+  });
+  
+  it("matches nested placeholder", () => {
+    expect(match(ABC([1, [8, 42], 3]))).toEqual('nested with placeholder');
   });
   
   it("matches number", () => {
